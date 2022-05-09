@@ -1,4 +1,65 @@
 /* eslint-disable max-classes-per-file */
+
+function animationOnClick(target) {
+  if (target) {
+    target.classList.add('active');
+  }
+}
+
+function animationEnd(e) {
+  e.target.classList.remove('active');
+}
+
+function capsLockToggle() {
+  this.global.capslock = !this.global.capslock;
+  this.drawKeys();
+  if (this.global.capslock) {
+    document.querySelector('[data-id="CapsLock"]').classList.add('key-acitve');
+  }
+}
+
+function insertTab() {
+  this.textarea.value += '\t';
+  this.textarea.focus();
+}
+
+function backspace() {
+  if (!document.querySelector('.keyboard--textarea:focus')) {
+    this.textarea.value = this.textarea.value
+      .split('')
+      .slice(0, this.textarea.value.split('').length - 1)
+      .join('');
+  }
+}
+
+function shiftHandler(key, event) {
+  const { id } = key;
+  const { type, repeat } = event;
+  if (type === 'keydown') {
+    if (!repeat) {
+      this.global.shift = true;
+      this.drawKeys();
+      document.querySelector(`[data-id="${id}"]`).classList.add('key-acitve');
+    }
+  } else {
+    this.global.shift = !this.global.shift;
+    this.drawKeys();
+    animationOnClick(document.querySelector(`[data-id="${id}"]`));
+  }
+}
+
+function EnterPress() {
+  this.textarea.value += '\n';
+}
+function deleteFunc() {
+  if (!document.querySelector('.keyboard--textarea:focus')) {
+    this.textarea.value = this.textarea.value
+      .split('')
+      .slice(0, this.textarea.value.split('').length - 1)
+      .join('');
+  }
+}
+
 const line1 = [
   {
     type: 'char',
@@ -628,17 +689,17 @@ class Keyboard {
   place() {
     this.containerKeyboard = new CustomHtmlElement(
       'div',
-      'keyboard--container',
+      'keyboard--container'
     ).place();
     document.body.append(this.containerKeyboard);
     this.textarea = new CustomHtmlElement(
       'textarea',
-      'keyboard--textarea',
+      'keyboard--textarea'
     ).place();
     this.containerKeyboard.append(this.textarea);
     this.keysField = new CustomHtmlElement(
       'div',
-      'keyboard--keysfield',
+      'keyboard--keysfield'
     ).place();
     this.containerKeyboard.append(this.keysField);
     this.keysField.addEventListener('click', (e) => this.ClickListener(e));
@@ -650,7 +711,7 @@ class Keyboard {
       'div',
       'keyboard--description',
       false,
-      'Клавиатура создана на основе Windows клавиатуры. Ctrl + Alt комбинация для смены языка ( англ - рус )',
+      'Клавиатура создана на основе Windows клавиатуры. Ctrl + Alt комбинация для смены языка ( англ - рус )'
     ).place();
     this.containerKeyboard.append(this.description);
   }
@@ -673,7 +734,8 @@ class Keyboard {
     const key = line1.find((x) => x.id === element.dataset.id);
 
     if (key.type === 'char') {
-      const precontent = key.content[this.global.lang][this.global.shift ? 1 : 0];
+      const precontent =
+        key.content[this.global.lang][this.global.shift ? 1 : 0];
       const content = this.global.capslock
         ? precontent[0].toUpperCase() + precontent.slice(1)
         : precontent;
