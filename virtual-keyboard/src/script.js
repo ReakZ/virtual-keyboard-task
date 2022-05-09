@@ -689,17 +689,17 @@ class Keyboard {
   place() {
     this.containerKeyboard = new CustomHtmlElement(
       'div',
-      'keyboard--container'
+      'keyboard--container',
     ).place();
     document.body.append(this.containerKeyboard);
     this.textarea = new CustomHtmlElement(
       'textarea',
-      'keyboard--textarea'
+      'keyboard--textarea',
     ).place();
     this.containerKeyboard.append(this.textarea);
     this.keysField = new CustomHtmlElement(
       'div',
-      'keyboard--keysfield'
+      'keyboard--keysfield',
     ).place();
     this.containerKeyboard.append(this.keysField);
     this.keysField.addEventListener('click', (e) => this.ClickListener(e));
@@ -711,7 +711,7 @@ class Keyboard {
       'div',
       'keyboard--description',
       false,
-      'Клавиатура создана на основе Windows клавиатуры. Ctrl + Alt комбинация для смены языка ( англ - рус )'
+      'Клавиатура создана на основе Windows клавиатуры. Ctrl + Alt комбинация для смены языка ( англ - рус )',
     ).place();
     this.containerKeyboard.append(this.description);
   }
@@ -734,8 +734,7 @@ class Keyboard {
     const key = line1.find((x) => x.id === element.dataset.id);
 
     if (key.type === 'char') {
-      const precontent =
-        key.content[this.global.lang][this.global.shift ? 1 : 0];
+      const precontent = key.content[this.global.lang][this.global.shift ? 1 : 0];
       const content = this.global.capslock
         ? precontent[0].toUpperCase() + precontent.slice(1)
         : precontent;
@@ -780,3 +779,9 @@ class Keyboard {
     this.drawKeys();
   }
 }
+function init() {
+  const keyboard = new Keyboard();
+  keyboard.place();
+  keyboard.drawKeys();
+}
+init();
