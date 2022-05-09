@@ -679,8 +679,11 @@ class BasicKey extends CustomHtmlElement {
 
 class Keyboard {
   constructor() {
+    const savedLang = localStorage.getItem('langVirtualKeyboard')
+      ? localStorage.getItem('langVirtualKeyboard')
+      : 'en';
     this.global = {
-      lang: 'en',
+      lang: savedLang,
       shift: false,
       capslock: false,
     };
@@ -768,6 +771,7 @@ class Keyboard {
   changeLang(e) {
     if (e.ctrlKey && e.altKey) {
       this.global.lang = this.global.lang === 'en' ? 'ru' : 'en';
+      localStorage.setItem('langVirtualKeyboard', this.global.lang);
       this.drawKeys();
     }
   }
@@ -775,7 +779,12 @@ class Keyboard {
   clearAnimation(e) {
     const id = e.code;
     this.global.shift = false;
-    document.querySelector(`[data-id="${id}"]`).classList.remove('key-acitve');
+    if (document.querySelector(`[data-id="${id}"]`)) {
+      document
+        .querySelector(`[data-id="${id}"]`)
+        .classList.remove('key-acitve');
+    }
+
     this.drawKeys();
   }
 }
