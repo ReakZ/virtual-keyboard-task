@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 class CustomHtmlElement {
   constructor(tag, classList, id = false, inner = false) {
     this.tag = tag;
@@ -20,5 +21,10 @@ class CustomHtmlElement {
 
   place() {
     return this.el;
+  }
+}
+class BasicKey extends CustomHtmlElement {
+  constructor(classList, id = false, inner = false) {
+    super('button', classList, id, inner);
   }
 }
